@@ -24,6 +24,19 @@ export const logoutUser = () => axios.get('/auth/logout');
 
 export const refreshUser = () => axios.get('/auth/current');
 
+// export const refreshUser222 = () => {
+//   fetch('http://localhost:8080/api/users/points/someUserID1212121asda', {
+//     method: 'PUT',
+//     headers: {
+//       'content-type': 'application/json',
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify({ points: 70 }),
+//   })
+//     .then(res => res.json())
+//     .then(resData => console.log('resData', resData));
+// };
+
 export const submitPointsButton = (id, data, token) =>
   axios.put(`/users/points/${id}`, data, setToken(token));
 

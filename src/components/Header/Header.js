@@ -71,7 +71,9 @@ class Header extends Component {
           <div className={styles.navControls}>
             <Navigation />
 
-            <ul className={styles.listLang}>
+            {/* А вдруг преспичет и тут потом сделать с переключением языков=))
+            Логика вся написана надо только раскоментировать */}
+            {/* <ul className={styles.listLang}>
               <li className={styles.listLangItem}>
                 <button
                   type="button"
@@ -98,7 +100,7 @@ class Header extends Component {
                   укр
                 </button>
               </li>
-            </ul>
+            </ul> */}
 
             <div className={styles.authModule}>
               {isAuth && <UserInfo />}

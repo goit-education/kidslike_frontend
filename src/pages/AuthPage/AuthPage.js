@@ -15,6 +15,8 @@ const AuthPage = props => {
 
   if (location.search) {
     const token = new URLSearchParams(location.search).get('token');
+    console.log(token);
+
     if (token) {
       setToken(token);
     }
