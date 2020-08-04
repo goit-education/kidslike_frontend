@@ -3,11 +3,11 @@ import axios from 'axios';
 import * as authActions from './authActions';
 import * as API from '../../services/api';
 
-const setToken = token => {
+export const setToken = token => {
   axios.defaults.headers.common.Authorization = token;
 };
 
-const unsetToken = () => {
+export const unsetToken = () => {
   axios.defaults.headers.Authorization = null;
 };
 

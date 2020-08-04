@@ -56,6 +56,21 @@ class AuthForm extends Component {
     passwordId: shortid.generate(),
   };
 
+  componentDidMount() {
+    window.gapi.load('auth2', function() {
+      console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
+      window.gapi.auth2
+        .init({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        })
+        .then(() => {
+          // console.log('OK');
+        })
+        .catch(() => {});
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { serverError, serverIsLoading, isShowLangRu } = this.props;
 
@@ -149,6 +164,26 @@ class AuthForm extends Component {
       });
   };
 
+  googleSingIn = () => {
+    const { startLoginGoogle, setToken, setRefresh } = this.props;
+    // startLoginGoogle();
+
+    const GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signIn({ scope: 'profile email' })
+      .then(googleUser => {
+        console.log(googleUser);
+
+        const token = googleUser.wc.access_token;
+        // const token = googleUser.wc.id_token;
+        // const token = googleUser.wc.login_hint;
+        console.log(token);
+
+        setToken(token);
+        setRefresh();
+      })
+      .catch(() => {});
+  };
+
   render() {
     const { email, password, error } = this.state;
     const { serverIsLoading, isShowLangRu } = this.props;
@@ -162,7 +197,7 @@ class AuthForm extends Component {
                 ? 'Ви можете авторизуватися за допомогою Google Account:'
                 : 'Вы можете авторизоваться с помощью Google Account:'}
             </p>
-            <a
+            {/* <a
               className={s.auth__link__google}
               href="https://kidslike.goit.co.ua/api/auth/google"
             >
@@ -170,7 +205,17 @@ class AuthForm extends Component {
                 <IconGoogle width="28" height="28" />
                 <span className={s.auth__link__span}>Google</span>
               </div>
-            </a>
+            </a> */}
+
+            <button
+              className={s.auth__button__google}
+              type="button"
+              onClick={this.googleSingIn}
+            >
+              <IconGoogle width="28" height="28" />
+              <span className={s.auth__link__span}>Google</span>
+            </button>
+
             <p className={`${s.auth__description} ${s.description__second}`}>
               {!isShowLangRu
                 ? 'Або зайти за допомогою e-mail та паролю, попередньо зареєструвавшись:'
@@ -245,6 +290,11 @@ const mapDispatchToProps = dispatch => ({
   onRegister: data => dispatch(authOperation.register(data)),
   onLogin: data => dispatch(authOperation.login(data)),
   cleanError: data => dispatch(authActions.errorRegister(data)),
+
+  startLoginGoogle: () => dispatch(authActions.startLogin()),
+  setToken: token => dispatch(authActions.googleToken(token)),
+  // setRefresh: token => dispatch(refresh(token)),
+  setRefresh: () => dispatch(authOperation.refresh()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);
