@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react-transition-group": "^4.2.3",
     "animate.css": "^3.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "gh-pages": "^2.2.0",
     "indicative": "^7.4.2",
     "lodash": "^4.17.15",
